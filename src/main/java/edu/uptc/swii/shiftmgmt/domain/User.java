@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name ="usuario")
+@Table(name ="usuarios")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,4 +28,22 @@ public class User {
     @Getter @Setter
     private String typeUser;
 
+    @OneToOne
+    @JoinColumn(name = "id_credencial")
+    private Credentials credentials;
+
+    public User(String name, String lastName, String typeDocument, String document, String addres,
+            String email, String celphone, String typeUser, Credentials credentials) {
+        this.name = name;
+        this.lastName = lastName;
+        this.typeDocument = typeDocument;
+        this.document = document;
+        this.addres = addres;
+        this.email = email;
+        this.celphone = celphone;
+        this.typeUser = typeUser;
+        this.credentials = credentials;
+    }
+
+    
 }

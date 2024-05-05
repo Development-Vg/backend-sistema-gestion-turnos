@@ -2,7 +2,10 @@ package edu.uptc.swii.shiftmgmt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import edu.uptc.swii.shiftmgmt.domain.Credentials;
 import edu.uptc.swii.shiftmgmt.domain.User;
+import edu.uptc.swii.shiftmgmt.repository.CredentialRepository;
 import edu.uptc.swii.shiftmgmt.repository.UserRepository;
 
 
@@ -10,10 +13,17 @@ import edu.uptc.swii.shiftmgmt.repository.UserRepository;
 public class UserMgmtServiceImpl implements UserMgmtService{
     @Autowired
     UserRepository userRepo;
+    @Autowired
+    CredentialRepository credRepo;
 
     @Override
     public void saveUser(User user){
         userRepo.save(user);
+    }
+
+    @Override
+    public void saveCredential(Credentials credentials) {
+        credRepo.save(credentials);
     }
 
     // @Override
