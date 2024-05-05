@@ -1,0 +1,44 @@
+package edu.uptc.swii.shiftmgmt.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import edu.uptc.swii.shiftmgmt.domain.User;
+import edu.uptc.swii.shiftmgmt.service.UserMgmtService;
+
+@RestController
+@RequestMapping("users")
+public class UserController {
+@Autowired
+    private UserMgmtService userMgmtService;
+
+    @Value("${message}")
+    private String message;
+
+    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
+    public String welcome(){
+        return message;
+    }
+
+    // @RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = "application/json")
+    // public User findUserById(@PathVariable("userId") String userId){
+    //     User user = userMgmtService.findByUserId(userId);
+    //     return user;
+    // }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
+    public String createUser(@RequestBody User user) {
+        userMgmtService.saveUser(user);
+        return "Userid: " + user.getId();
+    }
+
+    // @RequestMapping(value = "/listAll", method = RequestMethod.GET, produces = "application/json")
+    // public List<User> listUsers(){
+    //     return userMgmtService.listAllUser();
+    // }
+   
+}
