@@ -1,8 +1,8 @@
-package edu.uptc.swii.shiftmgmt.repository;
+package edu.uptc.swii.shiftmgmt.domain.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import edu.uptc.swii.shiftmgmt.domain.User;
+import edu.uptc.swii.shiftmgmt.domain.model.User;
 
 
 public interface UserRepository extends JpaRepository<User, Integer> {

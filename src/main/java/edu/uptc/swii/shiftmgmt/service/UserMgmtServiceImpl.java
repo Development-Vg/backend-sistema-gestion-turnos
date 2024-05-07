@@ -3,10 +3,10 @@ package edu.uptc.swii.shiftmgmt.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.uptc.swii.shiftmgmt.domain.Credentials;
-import edu.uptc.swii.shiftmgmt.domain.User;
-import edu.uptc.swii.shiftmgmt.repository.CredentialRepository;
-import edu.uptc.swii.shiftmgmt.repository.UserRepository;
+import edu.uptc.swii.shiftmgmt.domain.model.Credentials;
+import edu.uptc.swii.shiftmgmt.domain.model.User;
+import edu.uptc.swii.shiftmgmt.domain.repository.CredentialRepository;
+import edu.uptc.swii.shiftmgmt.domain.repository.UserRepository;
 
 
 @Service

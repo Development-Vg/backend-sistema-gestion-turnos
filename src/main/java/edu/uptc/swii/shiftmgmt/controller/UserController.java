@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.uptc.swii.shiftmgmt.domain.Credentials;
-import edu.uptc.swii.shiftmgmt.domain.User;
+import edu.uptc.swii.shiftmgmt.domain.model.Credentials;
+import edu.uptc.swii.shiftmgmt.domain.model.User;
 import edu.uptc.swii.shiftmgmt.service.UserMgmtService;
 
 @RestController

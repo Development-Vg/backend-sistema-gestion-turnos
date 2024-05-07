@@ -1,4 +1,4 @@
-package edu.uptc.swii.shiftmgmt.domain;
+package edu.uptc.swii.shiftmgmt.domain.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
