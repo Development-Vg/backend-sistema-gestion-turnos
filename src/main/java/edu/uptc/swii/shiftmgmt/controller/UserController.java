@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,11 +30,13 @@ public class UserController {
     }
 
     @GetMapping("/hello-1")
+    @PreAuthorize("hasRole('admin-backend')")
     public String helloAdmin(){
         return "Hello ADMIN";
     }
 
     @GetMapping("/hello-2")
+    @PreAuthorize("hasRole('users-backend')") //or hashRole()
     public String helloUser(){
         return "Hello USER";
     }
