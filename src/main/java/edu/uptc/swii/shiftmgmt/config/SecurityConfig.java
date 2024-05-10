@@ -32,10 +32,13 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
-                .authorizeRequests(http -> http.anyRequest().authenticated())
+                .authorizeRequests(http -> http
+                        .requestMatchers("/users/create").permitAll()
+                        .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth ->{
                     oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter));
                 })
+
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }

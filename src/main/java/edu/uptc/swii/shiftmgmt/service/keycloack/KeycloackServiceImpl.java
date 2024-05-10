@@ -1,6 +1,7 @@
 package edu.uptc.swii.shiftmgmt.service.keycloack;
 
 import edu.uptc.swii.shiftmgmt.controller.dto.UserDTO;
+import edu.uptc.swii.shiftmgmt.domain.model.User;
 import edu.uptc.swii.shiftmgmt.util.KeycloackProvider;
 import jakarta.validation.constraints.NotNull;
 import jakarta.ws.rs.core.Response;
@@ -14,7 +15,6 @@ import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,12 +44,15 @@ public class KeycloackServiceImpl implements IkeycloakService{
     }
 
     @Override
-    public String createUser(@NotNull UserDTO userDTO) {
+    public String createUser(@NotNull User user, String password) {
         int status = 0;
         UsersResource usersResource = KeycloackProvider.getUserResource();
+
         UserRepresentation userRepresentation = new UserRepresentation();
-        userRepresentation.setFirstName(userDTO.getFirstName());
-        userRepresentation.setLastName(userDTO.getLastName());
+        userRepresentation.setFirstName(user.getName());
+        userRepresentation.setLastName(user.getLastName());
+        userRepresentation.setEmail(user.getEmail());
+        userRepresentation.setUsername(user.getEmail().split("@")[0]);
         userRepresentation.setEmailVerified(true); // ideal enviar un correo electronico para verificarlo
         userRepresentation.setEnabled(true);
 
@@ -62,20 +65,20 @@ public class KeycloackServiceImpl implements IkeycloakService{
             CredentialRepresentation credentialRepresentation = new CredentialRepresentation();
             credentialRepresentation.setTemporary(false);
             credentialRepresentation.setType(OAuth2Constants.PASSWORD);
-            credentialRepresentation.setValue(userDTO.getPassword());
+            credentialRepresentation.setValue(password);
 
             usersResource.get(userId).resetPassword(credentialRepresentation);
 
             RealmResource realmResource = KeycloackProvider.getRealmResource();
             List<RoleRepresentation> roleRepresentations = null;
 
-            if(userDTO.getRoles() == null || userDTO.getRoles().isEmpty()){
+            if(user.getRoles() == null || user.getRoles().isEmpty()){
                 roleRepresentations = List.of(realmResource.roles().get("users-role-TurnsManagementApp").toRepresentation());
             } else {
                 roleRepresentations = realmResource.roles()
                         .list()
                         .stream()
-                        .filter(role -> userDTO.getRoles()
+                        .filter(role -> user.getRoles()
                                 .stream()
                                 .anyMatch(roleName -> roleName.equalsIgnoreCase(role.getName())))
                         .toList();
@@ -100,14 +103,16 @@ public class KeycloackServiceImpl implements IkeycloakService{
     }
 
     @Override
-    public void updateUser(String userId, @NotNull UserDTO userDTO) {
+    public void updateUser(String userId, @NotNull User user, String password) {
         CredentialRepresentation credentialRepresentation = new CredentialRepresentation();
         credentialRepresentation.setType(OAuth2Constants.PASSWORD);
-        credentialRepresentation.setValue(userDTO.getPassword());
+        credentialRepresentation.setValue(password);
 
         UserRepresentation userRepresentation = new UserRepresentation();
-        userRepresentation.setFirstName(userDTO.getFirstName());
-        userRepresentation.setLastName(userDTO.getLastName());
+        userRepresentation.setFirstName(user.getName());
+        userRepresentation.setLastName(user.getLastName());
+        userRepresentation.setEmail(user.getEmail());
+        userRepresentation.setUsername(user.getEmail().split("@")[0]);
         userRepresentation.setEmailVerified(true); // ideal enviar un correo electronico para verificarlo
         userRepresentation.setEnabled(true);
         userRepresentation.setCredentials(Collections.singletonList(credentialRepresentation));
