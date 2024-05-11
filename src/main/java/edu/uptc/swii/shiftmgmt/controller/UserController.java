@@ -1,9 +1,9 @@
 package edu.uptc.swii.shiftmgmt.controller;
 
+import java.util.HashSet;
 import java.util.Map;
 
 import edu.uptc.swii.shiftmgmt.service.keycloack.IkeycloakService;
-import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -55,6 +55,7 @@ public class UserController {
         (String) requestData.get("typeUser"), credentials);
         userMgmtService.saveCredential(credentials);
         userMgmtService.saveUser(user);
+        user.getRoles().add(user.getTypeUser().equals("U")? "users-role-TurnsManagementApp" : "admin-role-TurnsManagementApp");
         ikeycloakService.createUser(user, credentials.getPassword());
         return "Userid: " + user.getId();
     }

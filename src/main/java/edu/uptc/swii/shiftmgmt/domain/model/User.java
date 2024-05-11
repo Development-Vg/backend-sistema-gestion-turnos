@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -48,6 +49,7 @@ public class User {
         this.celphone = celphone;
         this.typeUser = typeUser;
         this.credentials = credentials;
+        roles = new HashSet<>();
     }
 
     
