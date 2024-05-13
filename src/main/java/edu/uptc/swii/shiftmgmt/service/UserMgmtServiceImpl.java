@@ -8,6 +8,8 @@ import edu.uptc.swii.shiftmgmt.domain.model.User;
 import edu.uptc.swii.shiftmgmt.domain.repository.CredentialRepository;
 import edu.uptc.swii.shiftmgmt.domain.repository.UserRepository;
 
+import java.util.List;
+
 
 @Service
 public class UserMgmtServiceImpl implements UserMgmtService{
@@ -26,10 +28,10 @@ public class UserMgmtServiceImpl implements UserMgmtService{
         credRepo.save(credentials);
     }
 
-    // @Override
-    // public User findByUserId(String userId) {
-    //     return userRepo.findByUserId(userId);
-    // }
+//     @Override
+//     public User findByUserId(String userId) {
+//         return userRepo.findByUserId(userId);
+//     }
 
     // @Override
     // public void deleteUser(String UserId){
@@ -37,9 +39,9 @@ public class UserMgmtServiceImpl implements UserMgmtService{
     //     userRepo.delete(user);
     // }
 
-    // @Override
-    // public List<User> listAllUser(){
-    //     return userRepo.findAll();
-    // }
+     @Override
+     public List<User> listAllUser(){
+         return userRepo.findAll();
+     }
 
 }

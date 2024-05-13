@@ -1,6 +1,7 @@
 package edu.uptc.swii.shiftmgmt.controller;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import edu.uptc.swii.shiftmgmt.service.keycloack.IkeycloakService;
@@ -72,9 +73,9 @@ public class UserController {
     //     return "Userid: " + user.getId();
     // }
 
-    // @RequestMapping(value = "/listAll", method = RequestMethod.GET, produces = "application/json")
-    // public List<User> listUsers(){
-    //     return userMgmtService.listAllUser();
-    // }
+     @RequestMapping(value = "/listAll", method = RequestMethod.GET, produces = "application/json")
+     public List<User> listUsers(){
+         return userMgmtService.listAllUser();
+     }
 
 }

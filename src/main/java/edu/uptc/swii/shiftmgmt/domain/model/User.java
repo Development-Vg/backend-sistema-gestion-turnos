@@ -1,8 +1,10 @@
 package edu.uptc.swii.shiftmgmt.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
@@ -10,6 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name ="usuarios")
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,6 +35,7 @@ public class User {
     @Getter @Setter
     private String typeUser;
     @Getter @Setter
+    @JsonIgnore
     private Set<String> roles;
 
     @OneToOne
