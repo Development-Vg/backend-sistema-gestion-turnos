@@ -30,7 +30,7 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(http -> http
-                        .requestMatchers("/users/create").permitAll()
+                        .requestMatchers("/users/listAll").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth ->{
                     oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter));
