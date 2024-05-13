@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.uptc.swii.shiftmgmt.domain.model.Credentials;
 import edu.uptc.swii.shiftmgmt.domain.model.User;
 import edu.uptc.swii.shiftmgmt.service.UserMgmtService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/users")
 public class UserController {
