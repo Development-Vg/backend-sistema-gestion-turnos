@@ -1,0 +1,15 @@
+server.port: 8080
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+spring:
+  application.name: UserManagementService
+  cloud:
+    config:
+      name: microservices-config
+      uri: http://localhost:8888/
+      username: config_user
+      password: config_user
+  profiles:
+    active: DEV
