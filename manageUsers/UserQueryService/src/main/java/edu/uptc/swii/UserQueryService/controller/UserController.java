@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 
 import java.util.List;
 import java.util.Map;
+
 
 @RestController
 @RequestMapping("/list")
@@ -48,7 +51,6 @@ public class UserController {
     //     User user = userMgmtService.findByUserId(userId);
     //     return user;
     // }
-
     @RequestMapping(value = "/listAll", method = RequestMethod.GET, produces = "application/json")
     public List<User> listUsers(){
         return userMgmtService.listAllUser();
