@@ -73,9 +73,5 @@ public class UserController {
     //     return "Userid: " + user.getId();
     // }
 
-    @RequestMapping(value = "/listAll", method = RequestMethod.GET, produces = "application/json")
-    public List<User> listUsers(){
-        return userMgmtService.listAllUser();
-    }
 
 }

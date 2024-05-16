@@ -4,23 +4,18 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>edu.uptc.swii</groupId>
-		<artifactId>manageUsers</artifactId>
+		<artifactId>shiftManagement</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>edu.uptc.swii</groupId>
-	<artifactId>UserQueryService</artifactId>
+	<artifactId>shiftCommandService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>UserQueryService</name>
-	<description>Demo project for Spring Boot</description>
+	<name>shiftCommandService</name>
+	<description>Command Service</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-			<version>2.0.2.RELEASE</version>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
@@ -30,6 +25,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
 		</dependency>
 	</dependencies>
 

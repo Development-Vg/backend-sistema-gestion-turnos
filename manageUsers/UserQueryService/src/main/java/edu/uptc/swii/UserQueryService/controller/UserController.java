@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/list")
 public class UserController {
     @Autowired
     private UserMgmtService userMgmtService;
@@ -41,30 +41,12 @@ public class UserController {
         return "Hello USER";
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
-    public String createUser(@RequestBody Map<String, Object> requestData) {
-        Credentials credentials = new Credentials();
-        credentials.setPassword((String) requestData.get("password"));
-        User user = new User((String) requestData.get("name"), (String) requestData.get("lastName"), (String) requestData.get("typeDocument"),
-                (String) requestData.get("document"),(String) requestData.get("addres"), (String) requestData.get("email"), (String) requestData.get("celphone"),
-                (String) requestData.get("typeUser"), credentials);
-        userMgmtService.saveCredential(credentials);
-        userMgmtService.saveUser(user);
-        user.getRoles().add(user.getTypeUser().equals("U")? "users-role-TurnsManagementApp" : "admin-role-TurnsManagementApp");
-        ikeycloakService.createUser(user, credentials.getPassword());
-        return "Userid: " + user.getId();
-    }
+
 
     // @RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = "application/json")
     // public User findUserById(@PathVariable("userId") String userId){
     //     User user = userMgmtService.findByUserId(userId);
     //     return user;
-    // }
-
-    // @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
-    // public String createUser(@RequestBody User user) {
-    //     userMgmtService.saveUser(user);
-    //     return "Userid: " + user.getId();
     // }
 
     @RequestMapping(value = "/listAll", method = RequestMethod.GET, produces = "application/json")
