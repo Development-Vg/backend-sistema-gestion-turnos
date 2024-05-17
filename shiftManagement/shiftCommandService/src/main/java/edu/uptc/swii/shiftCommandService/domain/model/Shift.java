@@ -13,7 +13,7 @@ public class Shift {
     @Getter @Setter
     private int id;
     @Getter @Setter
-    private Integer idUser;
+    private Integer userId;
     @Getter @Setter
     private String dependence;
     @Getter @Setter
