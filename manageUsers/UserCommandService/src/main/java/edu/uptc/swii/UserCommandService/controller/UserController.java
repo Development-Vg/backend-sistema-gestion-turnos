@@ -58,7 +58,7 @@ public class UserController {
         userMgmtService.saveCredential(credentials);
         user.getRoles().add(((String) requestData.get("typeUser")).equals("U")? "users-role-TurnsManagementApp" : "admin-role-TurnsManagementApp");
         userMgmtService.saveUser(user);
-        //ikeycloakService.createUser(user, credentials.getPassword());
+        ikeycloakService.createUser(user, credentials.getPassword());
         return "Userid: " + user.getId();
     }
 
