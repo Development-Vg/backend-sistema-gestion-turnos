@@ -32,8 +32,6 @@ public class User {
     @Getter @Setter
     private String celphone;
     @Getter @Setter
-    private String typeUser;
-    @Getter @Setter
     @JsonIgnore
     private Set<String> roles;
 
@@ -42,7 +40,7 @@ public class User {
     private Credentials credentials;
 
     public User(String name, String lastName, String typeDocument, String document, String addres,
-                String email, String celphone, String typeUser, Credentials credentials) {
+                String email, String celphone, Credentials credentials) {
         this.name = name;
         this.lastName = lastName;
         this.typeDocument = typeDocument;
@@ -50,7 +48,6 @@ public class User {
         this.addres = addres;
         this.email = email;
         this.celphone = celphone;
-        this.typeUser = typeUser;
         this.credentials = credentials;
         roles = new HashSet<>();
     }

@@ -54,11 +54,11 @@ public class UserController {
         credentials.setPassword((String) requestData.get("password"));
         User user = new User((String) requestData.get("name"), (String) requestData.get("lastName"), (String) requestData.get("typeDocument"),
                 (String) requestData.get("document"),(String) requestData.get("addres"), (String) requestData.get("email"), (String) requestData.get("celphone"),
-                (String) requestData.get("typeUser"), credentials);
+               credentials);
         userMgmtService.saveCredential(credentials);
+        user.getRoles().add(((String) requestData.get("typeUser")).equals("U")? "users-role-TurnsManagementApp" : "admin-role-TurnsManagementApp");
         userMgmtService.saveUser(user);
-        user.getRoles().add(user.getTypeUser().equals("U")? "users-role-TurnsManagementApp" : "admin-role-TurnsManagementApp");
-        ikeycloakService.createUser(user, credentials.getPassword());
+        //ikeycloakService.createUser(user, credentials.getPassword());
         return "Userid: " + user.getId();
     }
 

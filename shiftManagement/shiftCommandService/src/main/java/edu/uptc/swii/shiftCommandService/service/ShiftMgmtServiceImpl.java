@@ -14,19 +14,11 @@ public class ShiftMgmtServiceImpl implements ShiftMgmtService{
     ShiftRepository shiftRepository;
     @Override
     public void saveShift(Shift shift) {
-        int id = autoIncrement();
-        shift.setId(id);
-        shift.setShiftNumber("M"+ (id+1));
         shiftRepository.save(shift);
     }
 
     @Override
-    public List<Shift> listAllUser() {
-        return shiftRepository.findAll();
-    }
-    private int autoIncrement() {
-        List<Shift> products = shiftRepository.findAll();
-        return products.isEmpty()? 1 :
-                products.stream().max(Comparator.comparing(Shift::getId)).get().getId() + 1;
+    public void deleteAll() {
+        shiftRepository.deleteAll();
     }
 }

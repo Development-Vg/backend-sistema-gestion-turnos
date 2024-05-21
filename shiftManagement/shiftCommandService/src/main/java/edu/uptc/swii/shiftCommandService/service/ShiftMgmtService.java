@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ShiftMgmtService {
     public void saveShift(Shift shift);
-    public List<Shift> listAllUser();
+    public void deleteAll();
 }
