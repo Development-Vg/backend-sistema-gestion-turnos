@@ -5,10 +5,7 @@ import edu.uptc.swii.shiftQueryService.service.ShiftMgmtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -26,8 +23,8 @@ public class ShiftController {
     }
 
     @RequestMapping(value = "/listAvailableShifts", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity listAw (@RequestBody Map<String, Object> requestData){
-            List<String>  filterShiftDependence = shiftMgmtService.list((String) requestData.get("dependence"), (String) requestData.get("date"));
+    public ResponseEntity listAw (@RequestParam String dependence, @RequestParam String date){
+            List<String>  filterShiftDependence = shiftMgmtService.list(dependence, date);
         return !(filterShiftDependence == null)? new ResponseEntity<>(filterShiftDependence, HttpStatus.OK) : new ResponseEntity<>("No turnos disponible", HttpStatus.NOT_FOUND);
     }
 }
