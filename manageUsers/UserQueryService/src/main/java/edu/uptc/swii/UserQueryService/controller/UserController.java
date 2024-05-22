@@ -6,6 +6,7 @@ import edu.uptc.swii.UserQueryService.service.UserMgmtService;
 import edu.uptc.swii.UserQueryService.service.keycloack.IkeycloakService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/listUsers")
 public class UserController {
+
+    private static final String TOPICSUSERS= "Usernot1";
     @Autowired
     private UserMgmtService userMgmtService;
 
@@ -51,13 +54,6 @@ public class UserController {
         return "Hello USER";
     }
 
-
-
-    // @RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = "application/json")
-    // public User findUserById(@PathVariable("userId") String userId){
-    //     User user = userMgmtService.findByUserId(userId);
-    //     return user;
-    // }
     @RequestMapping(value = "/listAll", method = RequestMethod.GET, produces = "application/json")
     public List<User> listUsers(){
         return userMgmtService.listAllUser();
@@ -66,6 +62,13 @@ public class UserController {
     @RequestMapping(value = "/listAllKeycloack", method = RequestMethod.GET, produces = "application/json")
     public List<UserRepresentation> listUsersKeycloak(){
         return ikeycloakService.findAllUsers();
+    }
+
+    //@RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = "application/json")
+    @KafkaListener(topics = "Usernot", groupId = "myGroup")
+    public User findUserById(String message){
+        User user = userMgmtService.findByUserId(Integer.parseInt(message));
+        return user;
     }
 
 }

@@ -27,6 +27,11 @@ public class UserMgmtServiceImpl implements UserMgmtService{
         credRepo.save(credentials);
     }
 
+    @Override
+    public User findByUserId(Integer userId) {
+        return userRepo.findByUserId(userId);
+    }
+
 //     @Override
 //     public User findByUserId(String userId) {
 //         return userRepo.findByUserId(userId);

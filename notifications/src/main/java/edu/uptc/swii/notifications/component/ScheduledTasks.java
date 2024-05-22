@@ -1,14 +1,37 @@
 package edu.uptc.swii.notifications.component;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Component
 public class ScheduledTasks {
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
 
-    @Scheduled(cron = "*/10 * 8-22 * * ?")// La expresión cron para ejecutar una tarea cada 10 segundos, desde las 8:00 AM hasta las 11:00 PM, todos los días,
+    private static final String TOPICSHIFT = "notificacion";
+    private static final String TOPICSUSERS= "Usernot";
+
+    @Value("")
+    public String shifts;
+
+    @Value("")
+    List<String> listShifh;
+
+    @Scheduled(cron = "*/10 * 0-23 * * ?")// La expresión cron para ejecutar una tarea cada 10 segundos, desde las 8:00 AM hasta las 11:00 PM, todos los días,
     public void checkMavenVersion() {
         System.out.println("hola");
+        kafkaTemplate.send(TOPICSHIFT, "idTurno");
+        List<String> shiftList = Arrays.asList(shifts.split("\n"));
+        shiftList.forEach(s -> {
+            System.out.println(kafkaTemplate.send(TOPICSHIFT, ));
+        });
 
     }
 //        LocalTime now = LocalTime.now();
@@ -33,5 +56,10 @@ public class ScheduledTasks {
 //            }
 //        }
 //    }
+
+    @KafkaListener(topics = "notificaciones1", groupId = "myGroup")
+    public void ListShif(String message){
+        shifts = message;
+    }
 }
 

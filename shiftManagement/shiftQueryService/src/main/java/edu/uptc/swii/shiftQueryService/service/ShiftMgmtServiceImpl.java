@@ -26,6 +26,8 @@ public class ShiftMgmtServiceImpl implements ShiftMgmtService {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     private static final String TOPIC = "turnos-1";
+    private static final String TOPICTWO = "notificaciones1";
+
     @Override
     public List<Shift> listAllShift() {
         return shiftRepository.findAll();
@@ -42,13 +44,24 @@ public class ShiftMgmtServiceImpl implements ShiftMgmtService {
         }
     }
 
+    @KafkaListener(topics = "notificacion", groupId = "myGroup")
+    public void listShiftNotificaions(){
+        String message = "";
+        for(Shift shift : listAllShift()){
+            message += shift.getUserId() + "--" + shift.getDate();
+            message += "\n";
+        }
+        listAllShift().forEach(System.out::println);
+        kafkaTemplate.send(TOPICTWO, message);
+    }
+
     @Override
     public List<String> list(String dependence, String date) {
         List<Shift> filterShiftDependence = shiftRepository.findByDependence(dependence);
         if(!filterShiftDependence.isEmpty()) {
-            return availableShifts(date);
+            return availableShifts(date, filterShiftDependence);
         }
-        return null;
+        return generateDateTimeList(date);
     }
 
 
@@ -69,8 +82,8 @@ public class ShiftMgmtServiceImpl implements ShiftMgmtService {
         return dateTimeList;
     }
 
-    public List<String> availableShifts(String date){
-        List<Shift> shiftList = listAllShift(); // Supongamos que ya tienes implementado un método para obtener la lista de Shifts
+    public List<String> availableShifts(String date, List<Shift> filterShiftDependence){
+        List<Shift> shiftList = filterShiftDependence; // Supongamos que ya tienes implementado un método para obtener la lista de Shifts
         List<String> dateTimeList = generateDateTimeList(date); // Supongamos que ya tienes implementado un método para obtener la lista de fechas
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd yyyy HH:mm:ss 'GMT'Z", new Locale("en", "CO") );
         ZoneId colombiaZoneId = ZoneId.of("America/Bogota");

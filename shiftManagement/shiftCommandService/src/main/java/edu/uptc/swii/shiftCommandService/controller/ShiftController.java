@@ -32,7 +32,6 @@ public class ShiftController {
     public String createUser(@RequestBody Shift shift) {
         while(kafkaessage.equals("")) {
             kafkaTemplate.send(TOPIC, "idTurno");
-
         }
         shift.setId(Integer.parseInt(kafkaessage));
         shift.setShiftNumber("M" + (shift.getId() +1));
