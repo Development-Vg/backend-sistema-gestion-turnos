@@ -6,7 +6,6 @@ import edu.uptc.swii.UserQueryService.service.UserMgmtService;
 import edu.uptc.swii.UserQueryService.service.keycloack.IkeycloakService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
@@ -65,10 +64,10 @@ public class UserController {
     }
 
     //@RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = "application/json")
-    @KafkaListener(topics = "Usernot", groupId = "myGroup")
-    public User findUserById(String message){
-        User user = userMgmtService.findByUserId(Integer.parseInt(message));
-        return user;
-    }
+   // @KafkaListener(topics = "Usernot", groupId = "myGroup")
+//    public User findUserById(String message){
+//        User user = userMgmtService.findByUserId(Integer.parseInt(message));
+//        return user;
+//    }
 
 }
