@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-
 
 @RestController
 @RequestMapping("/turnosList")
@@ -25,6 +23,7 @@ public class ShiftController {
     @RequestMapping(value = "/listAvailableShifts", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity listAw (@RequestParam String dependence, @RequestParam String date){
             List<String>  filterShiftDependence = shiftMgmtService.list(dependence, date);
+        System.out.println(date + "     fecha llega");
         return !(filterShiftDependence == null)? new ResponseEntity<>(filterShiftDependence, HttpStatus.OK) : new ResponseEntity<>("No turnos disponible", HttpStatus.NOT_FOUND);
     }
 }

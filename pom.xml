@@ -17,6 +17,7 @@
 		<module>apiGateway</module>
 		<module>manageUsers</module>
 		<module>shiftManagement</module>
+		<module>notifications</module>
 	</modules>
 
 	<properties>
