@@ -51,7 +51,7 @@ public class ShiftMgmtServiceImpl implements ShiftMgmtService {
             message += shift.getUserId() + "--" + shift.getDate();
             message += "\n";
         }
-        listAllShift().forEach(System.out::println);
+       // listAllShift().forEach(System.out::println);
         kafkaTemplate.send(TOPICTWO, message);
     }
 

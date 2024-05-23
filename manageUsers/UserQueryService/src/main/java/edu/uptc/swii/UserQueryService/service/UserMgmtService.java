@@ -8,7 +8,7 @@ import java.util.List;
 public interface UserMgmtService {
     public void saveUser(User user);
     public void saveCredential(Credentials credentials);
-    public User findByUserId(Integer userId);
+    public User findByUserId(int userId);
     // public void deleteUser(String userId);
     public List<User> listAllUser();
 }

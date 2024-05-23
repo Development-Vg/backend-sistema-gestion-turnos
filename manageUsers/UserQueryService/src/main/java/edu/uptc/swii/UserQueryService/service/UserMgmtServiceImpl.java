@@ -28,9 +28,8 @@ public class UserMgmtServiceImpl implements UserMgmtService{
     }
 
     @Override
-    public User findByUserId(Integer userId) {
-        //return userRepo.findByUserId(userId);
-        return null;
+    public User findByUserId(int id) {
+        return userRepo.findById(id);
     }
 
 //     @Override

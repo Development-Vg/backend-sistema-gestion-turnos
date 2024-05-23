@@ -1,4 +1,4 @@
-package edu.uptc.swii.notifications.config;
+package edu.uptc.swii.UserQueryService.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;

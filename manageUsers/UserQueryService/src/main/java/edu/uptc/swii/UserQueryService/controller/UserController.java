@@ -6,8 +6,12 @@ import edu.uptc.swii.UserQueryService.service.UserMgmtService;
 import edu.uptc.swii.UserQueryService.service.keycloack.IkeycloakService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.security.core.Authentication;
@@ -15,10 +19,14 @@ import org.springframework.security.core.Authentication;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/listUsers")
 public class UserController {
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     private static final String TOPICSUSERS= "Usernot1";
     @Autowired
@@ -36,19 +44,19 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    @PreAuthorize("hasRole('admin-backend') or hasRole('users-backend')")
+    //@PreAuthorize("hasRole('admin_backen_role') or hasRole('user_backen_role')")
     public String helloAdmin(Authentication authentication){
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         String role = authorities.stream()
                 .map(GrantedAuthority::getAuthority)
-                .filter(r -> r.equals("ROLE_admin-backend") || r.equals("ROLE_users-backend"))
+                .filter(r -> r.equals("ROLE_admin_backen_role") || r.equals("ROLE_user_backen_role"))
                 .findFirst()
                 .orElse("No Role Found");
-        return ""+role;
+        return role;
     }
 
     @GetMapping("/hello-2")
-    @PreAuthorize("hasRole('users-backend')") //or hashRole()
+    @PreAuthorize("hasRole('admin')") //or hashRole()
     public String helloUser(){
         return "Hello USER";
     }
@@ -64,10 +72,12 @@ public class UserController {
     }
 
     //@RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = "application/json")
-   // @KafkaListener(topics = "Usernot", groupId = "myGroup")
-//    public User findUserById(String message){
-//        User user = userMgmtService.findByUserId(Integer.parseInt(message));
-//        return user;
-//    }
+    @KafkaListener(topics = "Usernot", groupId = "myGroup")
+    public void findUserById(String message){
+        User user = userMgmtService.findByUserId(Integer.parseInt(message));
+        System.out.println(user.getEmail());
+        kafkaTemplate.send(TOPICSUSERS, user.getEmail() + "-" + user.getCelphone());
+        user = null;
+    }
 
 }
