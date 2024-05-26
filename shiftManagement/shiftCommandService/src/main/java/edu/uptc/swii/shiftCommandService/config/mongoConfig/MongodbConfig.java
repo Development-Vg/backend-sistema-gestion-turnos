@@ -1,4 +1,4 @@
-package edu.uptc.swii.shiftQueryService.config.mongoConfig;
+package edu.uptc.swii.shiftCommandService.config.mongoConfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

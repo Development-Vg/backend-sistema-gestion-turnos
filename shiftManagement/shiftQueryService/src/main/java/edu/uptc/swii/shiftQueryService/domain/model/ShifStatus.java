@@ -1,4 +1,4 @@
-package edu.uptc.swii.shiftCommandService.domain.model;
+package edu.uptc.swii.shiftQueryService.domain.model;
 
 public enum ShifStatus {
     ACTIVE, INACTIVE

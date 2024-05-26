@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    //@PreAuthorize("hasRole('admin_backen_role') or hasRole('user_backen_role')")
+    @PreAuthorize("hasRole('admin_backen_role') or hasRole('user_backen_role')")
     public String helloAdmin(Authentication authentication){
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         String role = authorities.stream()
@@ -75,8 +75,7 @@ public class UserController {
     @KafkaListener(topics = "Usernot", groupId = "myGroup")
     public void findUserById(String message){
         User user = userMgmtService.findByUserId(Integer.parseInt(message));
-        System.out.println(user.getEmail());
-        kafkaTemplate.send(TOPICSUSERS, user.getEmail() + "-" + user.getCelphone());
+        kafkaTemplate.send(TOPICSUSERS, user.getEmail() + "\n" + user.getName()+ " " + user.getLastName());
         user = null;
     }
 

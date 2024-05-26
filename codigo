@@ -1,0 +1,20 @@
+ //LocalTime startTime = LocalTime.of(8, 0);
+//        LocalTime endTime = LocalTime.of(9, 0);
+//
+//        if (!now.isBefore(startTime) && !now.isAfter(endTime)) {
+//            try {
+//                // Ejecutar el comando 'mvn -v'
+//                Process process = Runtime.getRuntime().exec("mvn -v");
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+//                String line;
+//
+//                // Leer y registrar la salida del comando
+//                while ((line = reader.readLine()) != null) {
+//                    System.out.println(line);
+//                }
+//
+//                process.waitFor();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }

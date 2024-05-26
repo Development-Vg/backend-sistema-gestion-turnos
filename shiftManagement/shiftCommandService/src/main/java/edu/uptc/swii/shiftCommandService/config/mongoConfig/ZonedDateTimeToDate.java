@@ -1,4 +1,4 @@
-package edu.uptc.swii.shiftQueryService.config.mongoConfig;
+package edu.uptc.swii.shiftCommandService.config.mongoConfig;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.WritingConverter;

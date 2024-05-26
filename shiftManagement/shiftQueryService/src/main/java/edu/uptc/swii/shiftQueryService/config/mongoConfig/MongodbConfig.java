@@ -1,23 +1,21 @@
-package edu.uptc.swii.shiftQueryService.config;
+package edu.uptc.swii.shiftQueryService.config.mongoConfig;
 
-import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
-import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 
+import java.util.ArrayList;
+import java.util.List;
 
+@Configuration
 public class MongodbConfig {
 
     @Bean
-    public MappingMongoConverter mappingMongoConverter(MongoDbFactory mongoDbFactory, MongoMappingContext mongoMappingContext) {
-        DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoDbFactory);
-        MappingMongoConverter converter = new MappingMongoConverter(dbRefResolver, mongoMappingContext);
-        converter.setCustomConversions(customConversions());
-        return converter;
-    }
-
-    private CustomConversions customConversions() {
-        return new CustomConversions(Arrays.asList(
-                new ZonedDateTimeJsonDeserializer(),
-                new ZonedDateTimeJsonSerializer()
-        ));
+    public MongoCustomConversions mongoCustomConversions() {
+        List<Converter<?,?>> converters = new ArrayList<>();
+        converters.add(ZonedDateTimeToDate.INSTANCE);
+        converters.add(DateToZonedDateTime.INSTANCE);
+        return new MongoCustomConversions(converters);
     }
 }

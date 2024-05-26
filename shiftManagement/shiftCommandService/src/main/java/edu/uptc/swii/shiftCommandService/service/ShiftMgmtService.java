@@ -7,4 +7,5 @@ import java.util.List;
 public interface ShiftMgmtService {
     public void saveShift(Shift shift);
     public void deleteAll();
+    public boolean updateStatusTurn(int userId);
 }

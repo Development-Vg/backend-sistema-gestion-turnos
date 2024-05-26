@@ -45,23 +45,36 @@ public class ShiftMgmtServiceImpl implements ShiftMgmtService {
     }
 
     @KafkaListener(topics = "notificacion", groupId = "myGroup")
-    public void listShiftNotificaions(){
-        String message = "";
-        for(Shift shift : listAllShift()){
-            message += shift.getUserId() + "--" + shift.getDate();
-            message += "\n";
+    public void listShiftNotificaions(String message){
+        String listShift = "";
+        ZonedDateTime actual = ZonedDateTime.now();
+        actual =  actual.withHour(0).withMinute(0).withSecond(0);
+        for(Shift shift : shiftRepository.findByDate(actual, actual.plusHours(23).plusMinutes(59).plusSeconds(59))){
+            ZonedDateTime dateTurn = shift.getDate();
+            listShift += shift.getUserId() + "--" + dateTurn.format(DateTimeFormatter.ofPattern("EEE MMM dd yyyy HH:mm:ss 'GMT'Z", new Locale("en", "CO"))) + "--" +shift.getDependence();
+            listShift += "\n";
         }
-       // listAllShift().forEach(System.out::println);
-        kafkaTemplate.send(TOPICTWO, message);
+        kafkaTemplate.send(TOPICTWO, listShift);
+    }
+
+    public ZonedDateTime convertDate(String date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd yyyy HH:mm:ss 'GMT'Z", new Locale("en", "CO") );
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(date, formatter);
+        return zonedDateTime;
     }
 
     @Override
-    public List<String> list(String dependence, String date) {
-        List<Shift> filterShiftDependence = shiftRepository.findByDependence(dependence);
-        if(!filterShiftDependence.isEmpty()) {
-            return availableShifts(date, filterShiftDependence);
+    public List<String> listTurnsAsing(int userId, String dependence, String date) {
+        List<Shift> filterShiftDependence = shiftRepository.findByDependenceAndDate(dependence, convertDate(date), convertDate(date).plusHours(23).plusMinutes(59).plusSeconds(59));
+        if(filterShiftDependence.isEmpty()) {
+            return generateDateTimeList(date);
         }
-        return generateDateTimeList(date);
+        for(Shift shift : filterShiftDependence){
+            if(shift.getUserId() == userId ){
+                return null;
+            }
+        }
+        return availableShifts(date, filterShiftDependence);
     }
 
 
@@ -88,7 +101,7 @@ public class ShiftMgmtServiceImpl implements ShiftMgmtService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd yyyy HH:mm:ss 'GMT'Z", new Locale("en", "CO") );
         ZoneId colombiaZoneId = ZoneId.of("America/Bogota");
         for (Shift shift : shiftList) {
-            ZonedDateTime shiftDateTime = ZonedDateTime.parse(shift.getDate(), formatter);
+            ZonedDateTime shiftDateTime = shift.getDate();
             Iterator<String> iterator = dateTimeList.iterator();
             while (iterator.hasNext()) {
                 String dateTimeString = iterator.next();

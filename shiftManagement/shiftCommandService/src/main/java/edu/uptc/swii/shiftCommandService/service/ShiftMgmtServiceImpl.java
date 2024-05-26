@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ShiftMgmtServiceImpl implements ShiftMgmtService{
     @Autowired
     ShiftRepository shiftRepository;
+
     @Override
     public void saveShift(Shift shift) {
         shiftRepository.save(shift);
@@ -20,5 +22,16 @@ public class ShiftMgmtServiceImpl implements ShiftMgmtService{
     @Override
     public void deleteAll() {
         shiftRepository.deleteAll();
+    }
+
+    @Override
+    public boolean updateStatusTurn(int userId) {
+        Shift shift = shiftRepository.findByUserId(userId);
+        if (shift != null){
+            shift.changeStatus();
+            shiftRepository.save(shift);
+            return true;
+        }
+        return false;
     }
 }
