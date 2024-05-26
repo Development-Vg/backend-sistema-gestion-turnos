@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShiftRepository extends MongoRepository<Shift, Integer> {
-    public Shift findByUserId(int userId);
+    public Shift findByUserIdAndId(int userId, int id);
 }

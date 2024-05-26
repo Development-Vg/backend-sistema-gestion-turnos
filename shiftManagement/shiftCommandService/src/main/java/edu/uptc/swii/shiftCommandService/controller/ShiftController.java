@@ -46,8 +46,8 @@ public class ShiftController {
 
     @PreAuthorize("hasRole('admin_backen_role') or hasRole('user_backen_role')")
     @RequestMapping(value = "/updateStatus/{userId}", method = RequestMethod.PATCH, produces = "application/json")
-    public ResponseEntity updateStatusTurn(@PathVariable int userId){
-        return shiftMgmtService.updateStatusTurn(userId) ? new ResponseEntity<>("Se actualizo correctamente", HttpStatus.OK) : new ResponseEntity<>("No se actualizo correctamente", HttpStatus.NOT_FOUND) ;
+    public ResponseEntity updateStatusTurn(@PathVariable int userId, @RequestParam int idTurn){
+        return shiftMgmtService.updateStatusTurn(userId, idTurn) ? new ResponseEntity<>("Se actualizo correctamente", HttpStatus.OK) : new ResponseEntity<>("No se actualizo correctamente", HttpStatus.NOT_FOUND) ;
     }
 
     @DeleteMapping("/eliminar")

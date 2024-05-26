@@ -15,7 +15,7 @@ public interface ShiftRepository extends MongoRepository<Shift, Integer> {
     @Query("{ 'dependence': ?0, 'date' : { $gte: ?1, $lt: ?2 } }")
     List<Shift> findByDependenceAndDate(String dependence, ZonedDateTime startOfDay, ZonedDateTime endOfDay);
 
-    @Query("{ 'date' : { $gte: ?0, $lt: ?1 } }")
+    @Query("{ 'date' : { $gte: ?0, $lt: ?1 }, 'status': 'ACTIVE' }")
     List<Shift> findByDate(ZonedDateTime startOfDay, ZonedDateTime endOfDay);
 
     List<Shift> findByUserId (int userId);
