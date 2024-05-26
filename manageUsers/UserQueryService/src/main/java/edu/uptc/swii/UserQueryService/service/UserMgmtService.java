@@ -9,6 +9,7 @@ public interface UserMgmtService {
     public void saveUser(User user);
     public void saveCredential(Credentials credentials);
     public User findByUserId(int userId);
+    public int userIdByEmail(String email);
     // public void deleteUser(String userId);
     public List<User> listAllUser();
 }

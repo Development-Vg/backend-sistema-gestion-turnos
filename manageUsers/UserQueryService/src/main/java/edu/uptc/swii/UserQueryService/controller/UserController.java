@@ -6,6 +6,8 @@ import edu.uptc.swii.UserQueryService.service.UserMgmtService;
 import edu.uptc.swii.UserQueryService.service.keycloack.IkeycloakService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -45,14 +47,8 @@ public class UserController {
 
     @GetMapping("/login")
     @PreAuthorize("hasRole('admin_backen_role') or hasRole('user_backen_role')")
-    public String helloAdmin(Authentication authentication){
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        String role = authorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .filter(r -> r.equals("ROLE_admin_backen_role") || r.equals("ROLE_user_backen_role"))
-                .findFirst()
-                .orElse("No Role Found");
-        return role;
+    public ResponseEntity helloAdmin(@RequestParam String email){
+        return new ResponseEntity<>(userMgmtService.userIdByEmail(email), HttpStatus.OK);
     }
 
     @GetMapping("/hello-2")

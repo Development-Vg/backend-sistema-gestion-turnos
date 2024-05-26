@@ -32,6 +32,11 @@ public class UserMgmtServiceImpl implements UserMgmtService{
         return userRepo.findById(id);
     }
 
+    @Override
+    public int userIdByEmail(String email) {
+        return userRepo.findByEmail(email).getId();
+    }
+
 //     @Override
 //     public User findByUserId(String userId) {
 //         return userRepo.findByUserId(userId);
