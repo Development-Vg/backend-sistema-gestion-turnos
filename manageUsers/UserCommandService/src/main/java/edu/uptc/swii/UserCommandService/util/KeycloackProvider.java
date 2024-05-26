@@ -8,12 +8,12 @@ import org.keycloak.admin.client.resource.UsersResource;
 
 public class KeycloackProvider {
     private static final String SERVER_URL = "http://3.12.115.86:8080";
-    private static final String REALM_NAME = "prueba";
+    private static final String REALM_NAME = "TurnsManagementApp";
     private static final String REALM_MASTER = "master";
     private static final String ADMIN_CLI = "admin-cli";
     private static final String USER_CONSOLE = "admin";
     private static final String PASSWORD_CONSOLE = "admin";
-    private static final String CLIENT_SECRET = "**********";
+    private static final String CLIENT_SECRET = "BzVesnocTnuP1pAZiPaNHmKTpgj4rFcN";
 
     public static RealmResource getRealmResource(){
         Keycloak keycloak = KeycloakBuilder.builder()

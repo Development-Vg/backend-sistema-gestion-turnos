@@ -1,4 +1,4 @@
-package edu.uptc.swii.UserQueryService.config;
+package edu.uptc.swii.shiftCommandService.config.securityConfig;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.converter.Converter;

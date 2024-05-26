@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ public class ShiftController {
     private KafkaTemplate<String, String> kafkaTemplate;
     private static final String TOPIC = "turnos";
 
-
+    @PreAuthorize("hasRole('admin_backen_role') or hasRole('user_backen_role')")
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
     public String createUser(@RequestBody Shift shift) {
         while(kafkaessage.equals("")) {
@@ -43,6 +44,7 @@ public class ShiftController {
         return "Turnoid: " + shift.getId();
     }
 
+    @PreAuthorize("hasRole('admin_backen_role') or hasRole('user_backen_role')")
     @RequestMapping(value = "/updateStatus/{userId}", method = RequestMethod.PATCH, produces = "application/json")
     public ResponseEntity updateStatusTurn(@PathVariable int userId){
         return shiftMgmtService.updateStatusTurn(userId) ? new ResponseEntity<>("Se actualizo correctamente", HttpStatus.OK) : new ResponseEntity<>("No se actualizo correctamente", HttpStatus.NOT_FOUND) ;

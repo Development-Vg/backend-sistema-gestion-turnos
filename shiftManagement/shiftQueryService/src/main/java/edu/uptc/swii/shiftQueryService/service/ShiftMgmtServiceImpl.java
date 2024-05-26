@@ -33,6 +33,11 @@ public class ShiftMgmtServiceImpl implements ShiftMgmtService {
         return shiftRepository.findAll();
     }
 
+    @Override
+    public List<Shift> ShiftByIdUser(int userId) {
+        return shiftRepository.findByUserId(userId);
+    }
+
     @KafkaListener(topics = "turnos", groupId = "myGroup")
     private void autoIncrement(String message) {
         if (message.equals("idTurno")) {
@@ -76,7 +81,6 @@ public class ShiftMgmtServiceImpl implements ShiftMgmtService {
         }
         return availableShifts(date, filterShiftDependence);
     }
-
 
     public List<String> generateDateTimeList(String dateOne) {
         LocalTime startTime = LocalTime.of(8, 0);

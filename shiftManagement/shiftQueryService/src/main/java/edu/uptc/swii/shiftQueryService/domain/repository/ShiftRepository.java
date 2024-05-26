@@ -17,4 +17,6 @@ public interface ShiftRepository extends MongoRepository<Shift, Integer> {
 
     @Query("{ 'date' : { $gte: ?0, $lt: ?1 } }")
     List<Shift> findByDate(ZonedDateTime startOfDay, ZonedDateTime endOfDay);
+
+    List<Shift> findByUserId (int userId);
 }

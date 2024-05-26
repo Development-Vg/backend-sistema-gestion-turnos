@@ -57,11 +57,13 @@ public class UserController {
         return "Hello USER";
     }
 
+    @PreAuthorize("hasRole('admin')")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET, produces = "application/json")
     public List<User> listUsers(){
         return userMgmtService.listAllUser();
     }
 
+    @PreAuthorize("hasRole('admin')")
     @RequestMapping(value = "/listAllKeycloack", method = RequestMethod.GET, produces = "application/json")
     public List<UserRepresentation> listUsersKeycloak(){
         return ikeycloakService.findAllUsers();

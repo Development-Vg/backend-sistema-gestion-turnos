@@ -1,4 +1,4 @@
-package edu.uptc.swii.shiftCommandService.config.securityConfig;
+package edu.uptc.swii.shiftQueryService.config.securityConfig;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,6 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .authorizeRequests(http -> http
-                        .requestMatchers("/listUsers/listAll").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth ->{
                     oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter));

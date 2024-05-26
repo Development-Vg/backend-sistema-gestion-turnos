@@ -7,4 +7,5 @@ import java.util.List;
 public interface ShiftMgmtService {
     public List<Shift> listAllShift();
     public List<String> listTurnsAsing(int Userid,String dependence, String date);
+    public List<Shift> ShiftByIdUser(int userId);
 }
