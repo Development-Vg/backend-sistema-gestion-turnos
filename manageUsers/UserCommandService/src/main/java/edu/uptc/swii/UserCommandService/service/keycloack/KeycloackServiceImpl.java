@@ -43,7 +43,7 @@ public class KeycloackServiceImpl implements IkeycloakService{
     }
 
     @Override
-    public String createUser(@NotNull User user, String password) {
+    public int createUser(@NotNull User user, String password) {
         int status = 0;
         UsersResource usersResource = KeycloackProvider.getUserResource();
 
@@ -57,7 +57,7 @@ public class KeycloackServiceImpl implements IkeycloakService{
 
         Response response = usersResource.create(userRepresentation);
         status = response.getStatus();
-        if(status == 201){
+        if(status == 201) {
             String path = response.getLocation().getPath();
             String userId = path.substring(path.lastIndexOf("/") + 1);
 
@@ -71,7 +71,7 @@ public class KeycloackServiceImpl implements IkeycloakService{
             RealmResource realmResource = KeycloackProvider.getRealmResource();
             List<RoleRepresentation> roleRepresentations = null;
 
-            if(user.getRoles() == null || user.getRoles().isEmpty()){
+            if (user.getRoles() == null || user.getRoles().isEmpty()) {
                 roleRepresentations = List.of(realmResource.roles().get("users-role-TurnsManagementApp").toRepresentation());
             } else {
                 roleRepresentations = realmResource.roles()
@@ -83,15 +83,16 @@ public class KeycloackServiceImpl implements IkeycloakService{
                         .toList();
             }
             realmResource.users().get(userId).roles().realmLevel().add(roleRepresentations);
-            return "User create successfully";
-        }else if(status == 409){
-            log.error("User exist already");
-            return "usuario ya existe";
-        }else {
-            log.error("Error creating user");
-            return "contacte al administrador";
+//            return "User create successfully";
+//        }else if(status == 409){
+//            log.error("User exist already");
+//            return "usuario ya existe     " + response.getStatusInfo() + " " ;
+//        }else {
+//            log.error("Error creating user");
+//            return "contacte al administrador";
+//        }
         }
-
+        return status;
     }
 
     @Override

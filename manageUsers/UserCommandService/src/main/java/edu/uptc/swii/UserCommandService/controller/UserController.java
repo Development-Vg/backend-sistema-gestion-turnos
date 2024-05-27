@@ -7,6 +7,8 @@ import java.util.Map;
 import edu.uptc.swii.UserCommandService.service.keycloack.IkeycloakService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,30 +51,21 @@ public class UserController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
-    public String createUser(@RequestBody Map<String, Object> requestData) {
-        Credentials credentials = new Credentials();
-        credentials.setPassword((String) requestData.get("password"));
-        User user = new User((String) requestData.get("name"), (String) requestData.get("lastName"), (String) requestData.get("typeDocument"),
-                (String) requestData.get("document"),(String) requestData.get("addres"), (String) requestData.get("email"), (String) requestData.get("celphone"),
-               credentials);
-        userMgmtService.saveCredential(credentials);
-        user.getRoles().add(((String) requestData.get("typeUser")).equals("U")? "users-role-TurnsManagementApp" : "admin-role-TurnsManagementApp");
-        userMgmtService.saveUser(user);
-        ikeycloakService.createUser(user, credentials.getPassword());
-        return "Userid: " + user.getId();
+    public ResponseEntity createUser(@RequestBody Map<String, Object> requestData) {
+        if(userMgmtService.findByUserDocument((String) requestData.get("document")) == null) {
+            Credentials credentials = new Credentials();
+            credentials.setPassword((String) requestData.get("password"));
+            User user = new User((String) requestData.get("name"), (String) requestData.get("lastName"), (String) requestData.get("typeDocument"),
+                    (String) requestData.get("document"), (String) requestData.get("addres"), (String) requestData.get("email"), (String) requestData.get("celphone"),
+                    credentials);
+            user.getRoles().add(((String) requestData.get("typeUser")).equals("U") ? "user" : "admin");
+            if (ikeycloakService.createUser(user, credentials.getPassword()) == 201){
+                userMgmtService.saveCredential(credentials);
+                userMgmtService.saveUser(user);
+                return new ResponseEntity<>("Registro exitoso " + user.getId(), HttpStatus.OK);
+            }
+            return new ResponseEntity<>("Ya esiste ese email", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>("Ya existe ese documento ", HttpStatus.NOT_FOUND);
     }
-
-    // @RequestMapping(value = "/{userId}", method = RequestMethod.GET, produces = "application/json")
-    // public User findUserById(@PathVariable("userId") String userId){
-    //     User user = userMgmtService.findByUserId(userId);
-    //     return user;
-    // }
-
-    // @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
-    // public String createUser(@RequestBody User user) {
-    //     userMgmtService.saveUser(user);
-    //     return "Userid: " + user.getId();
-    // }
-
-
 }

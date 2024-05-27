@@ -48,6 +48,7 @@ public class UserController {
     @GetMapping("/login")
     @PreAuthorize("hasRole('admin_backen_role') or hasRole('user_backen_role')")
     public ResponseEntity helloAdmin(@RequestParam String email){
+
         return new ResponseEntity<>(userMgmtService.userIdByEmail(email), HttpStatus.OK);
     }
 

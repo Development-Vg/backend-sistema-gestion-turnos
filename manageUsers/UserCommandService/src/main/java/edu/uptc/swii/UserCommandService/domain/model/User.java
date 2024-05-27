@@ -17,20 +17,30 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter @Setter
     private Integer id;
+
     @Getter @Setter
     private String name;
+
     @Getter @Setter
     private String lastName;
+
     @Getter @Setter
     private String typeDocument;
+
+    @Column(unique = true)
     @Getter @Setter
     private String document;
+
     @Getter @Setter
     private String addres;
+
+    @Column(unique = true)
     @Getter @Setter
     private String email;
+
     @Getter @Setter
     private String celphone;
+
     @Getter @Setter
     @JsonIgnore
     private Set<String> roles;

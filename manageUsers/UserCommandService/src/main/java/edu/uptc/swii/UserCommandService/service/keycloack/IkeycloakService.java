@@ -8,7 +8,7 @@ import java.util.List;
 public interface IkeycloakService {
     List<UserRepresentation> findAllUsers();
     List<UserRepresentation> searchUserByUserName(String username);
-    String createUser(User user, String password);
+    int createUser(User user, String password);
     void deleteUser(String userId);
     void updateUser(String userId, User user, String password);
 }
