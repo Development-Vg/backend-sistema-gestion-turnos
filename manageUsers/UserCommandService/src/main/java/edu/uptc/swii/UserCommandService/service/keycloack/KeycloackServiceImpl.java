@@ -46,7 +46,6 @@ public class KeycloackServiceImpl implements IkeycloakService{
     public int createUser(@NotNull User user, String password) {
         int status = 0;
         UsersResource usersResource = KeycloackProvider.getUserResource();
-
         UserRepresentation userRepresentation = new UserRepresentation();
         userRepresentation.setFirstName(user.getName());
         userRepresentation.setLastName(user.getLastName());
@@ -54,7 +53,6 @@ public class KeycloackServiceImpl implements IkeycloakService{
         userRepresentation.setUsername(user.getEmail().split("@")[0]);
         userRepresentation.setEmailVerified(true); // ideal enviar un correo electronico para verificarlo
         userRepresentation.setEnabled(true);
-
         Response response = usersResource.create(userRepresentation);
         status = response.getStatus();
         if(status == 201) {

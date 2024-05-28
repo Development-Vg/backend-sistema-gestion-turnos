@@ -36,10 +36,10 @@ public class KeycloackServiceImpl implements IkeycloakService{
      * @return
      */
     @Override
-    public List<UserRepresentation> searchUserByUserName(String username) {
+    public List<UserRepresentation> searchUserByEmail(String email) {
         return KeycloackProvider.getRealmResource()
                 .users()
-                .searchByUsername(username, true);
+                .searchByEmail(email, true);
     }
 
     @Override

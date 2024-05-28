@@ -35,12 +35,10 @@ public class User {
     @JsonIgnore
     private Set<String> roles;
 
-    @OneToOne
-    @JoinColumn(name = "id_credencial")
-    private Credentials credentials;
+
 
     public User(String name, String lastName, String typeDocument, String document, String addres,
-                String email, String celphone, Credentials credentials) {
+                String email, String celphone) {
         this.name = name;
         this.lastName = lastName;
         this.typeDocument = typeDocument;
@@ -48,7 +46,6 @@ public class User {
         this.addres = addres;
         this.email = email;
         this.celphone = celphone;
-        this.credentials = credentials;
         roles = new HashSet<>();
     }
 

@@ -1,8 +1,6 @@
 package edu.uptc.swii.UserQueryService.service;
 
-import edu.uptc.swii.UserQueryService.domain.model.Credentials;
 import edu.uptc.swii.UserQueryService.domain.model.User;
-import edu.uptc.swii.UserQueryService.domain.repository.CredentialRepository;
 import edu.uptc.swii.UserQueryService.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,18 +12,12 @@ import java.util.List;
 public class UserMgmtServiceImpl implements UserMgmtService{
     @Autowired
     UserRepository userRepo;
-    @Autowired
-    CredentialRepository credRepo;
 
     @Override
     public void saveUser(User user){
         userRepo.save(user);
     }
 
-    @Override
-    public void saveCredential(Credentials credentials) {
-        credRepo.save(credentials);
-    }
 
     @Override
     public User findByUserId(int id) {
@@ -33,8 +25,8 @@ public class UserMgmtServiceImpl implements UserMgmtService{
     }
 
     @Override
-    public int userIdByEmail(String email) {
-        return userRepo.findByEmail(email).getId();
+    public User userIdByEmail(String email) {
+        return userRepo.findByEmail(email);
     }
 
 //     @Override

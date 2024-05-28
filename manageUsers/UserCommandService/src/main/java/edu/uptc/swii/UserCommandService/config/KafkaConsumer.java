@@ -1,4 +1,4 @@
-package edu.uptc.swii.UserQueryService.config;
+package edu.uptc.swii.UserCommandService.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;

@@ -11,17 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.security.core.Authentication;
+import org.keycloak.representations.idm.UserRepresentation;
 
-
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/listUsers")
@@ -31,6 +25,7 @@ public class UserController {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     private static final String TOPICSUSERS= "Usernot1";
+    private static final String TOPICSUSERSCREATE= "userCreate";
     @Autowired
     private UserMgmtService userMgmtService;
 
@@ -47,9 +42,17 @@ public class UserController {
 
     @GetMapping("/login")
     @PreAuthorize("hasRole('admin_backen_role') or hasRole('user_backen_role')")
-    public ResponseEntity helloAdmin(@RequestParam String email){
-
-        return new ResponseEntity<>(userMgmtService.userIdByEmail(email), HttpStatus.OK);
+    public ResponseEntity loginUser(@RequestParam String email){
+        User user = userMgmtService.userIdByEmail(email);
+        if(user == null){
+            System.out.println(email);
+            UserRepresentation userRepresentation =  ikeycloakService.searchUserByEmail(email).get(0);
+            kafkaTemplate.send(TOPICSUSERSCREATE, userRepresentation.getFirstName() + "\n" +
+                    userRepresentation.getLastName() + "\n" +
+                    userRepresentation.getEmail() + "\n" );
+            user = userMgmtService.userIdByEmail(email);
+        }
+        return new ResponseEntity<>(userMgmtService.userIdByEmail(email).getId(), HttpStatus.OK);
     }
 
     @GetMapping("/hello-2")
@@ -58,13 +61,13 @@ public class UserController {
         return "Hello USER";
     }
 
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin_backen_role')")
     @RequestMapping(value = "/listAll", method = RequestMethod.GET, produces = "application/json")
     public List<User> listUsers(){
         return userMgmtService.listAllUser();
     }
 
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('admin_backen_role')")
     @RequestMapping(value = "/listAllKeycloack", method = RequestMethod.GET, produces = "application/json")
     public List<UserRepresentation> listUsersKeycloak(){
         return ikeycloakService.findAllUsers();
