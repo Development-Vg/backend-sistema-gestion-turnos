@@ -74,11 +74,6 @@ public class ShiftMgmtServiceImpl implements ShiftMgmtService {
         if(filterShiftDependence.isEmpty()) {
             return generateDateTimeList(date);
         }
-        for(Shift shift : filterShiftDependence){
-            if(shift.getUserId() == userId ){
-                return null;
-            }
-        }
         return availableShifts(date, filterShiftDependence);
     }
 
