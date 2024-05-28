@@ -50,9 +50,15 @@ public class UserController {
             kafkaTemplate.send(TOPICSUSERSCREATE, userRepresentation.getFirstName() + "\n" +
                     userRepresentation.getLastName() + "\n" +
                     userRepresentation.getEmail() + "\n" );
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException(e);
+            }
             user = userMgmtService.userIdByEmail(email);
         }
-        return new ResponseEntity<>(userMgmtService.userIdByEmail(email).getId(), HttpStatus.OK);
+        return new ResponseEntity<>(user.getId(), HttpStatus.OK);
     }
 
     @GetMapping("/hello-2")

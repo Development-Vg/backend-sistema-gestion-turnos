@@ -1,5 +1,7 @@
 package edu.uptc.swii.UserCommandService.controller;
 
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 
 import edu.uptc.swii.UserCommandService.service.keycloack.IkeycloakService;
@@ -69,10 +71,12 @@ public class UserController {
         for (int i = 0; i < userKeycloack.length; i++ ){
             System.out.println(userKeycloack[i]);
         }
-//        User user = new User();
-//        user.setName(userKeycloack[0]);
-//        user.setLastName(userKeycloack[1]);
-//        user.setEmail(userKeycloack[2]);
-//        user.getRoles().add(userKeycloack[3]);
+       User user = new User();
+       user.setName(userKeycloack[0]);
+       user.setLastName(userKeycloack[1]);
+       user.setEmail(userKeycloack[2]);
+       user.setRoles(new LinkedHashSet<>());
+       user.getRoles().add("user");
+       userMgmtService.saveUser(user);
     }
 }
