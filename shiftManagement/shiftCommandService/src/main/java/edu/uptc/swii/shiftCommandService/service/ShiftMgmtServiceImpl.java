@@ -34,7 +34,7 @@ public class ShiftMgmtServiceImpl implements ShiftMgmtService{
     public boolean updateStatusTurn(int userId, int idTurn) {
         Shift shift = shiftRepository.findByUserIdAndId(userId, idTurn);
         if (shift != null){
-            shift.changeStatus();
+            shift.changeStatusCancel();
             shiftRepository.save(shift);
             return true;
         }

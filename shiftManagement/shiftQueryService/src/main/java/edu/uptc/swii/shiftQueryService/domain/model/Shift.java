@@ -29,4 +29,9 @@ public class Shift {
     @Getter @Setter
     private ShifStatus status;
 
+
+    public void changeStatus(){
+        status = ShifStatus.INACTIVE;
+    }
+
 }

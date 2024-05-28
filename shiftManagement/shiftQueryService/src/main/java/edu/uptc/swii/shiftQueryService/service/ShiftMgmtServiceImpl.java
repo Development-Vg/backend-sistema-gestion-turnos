@@ -30,12 +30,24 @@ public class ShiftMgmtServiceImpl implements ShiftMgmtService {
 
     @Override
     public List<Shift> listAllShift() {
+        changeStatusInactive();
         return shiftRepository.findAll();
     }
 
     @Override
     public List<Shift> ShiftByIdUser(int userId) {
+        changeStatusInactive();
         return shiftRepository.findByUserId(userId);
+    }
+
+    public void changeStatusInactive(){
+        List<Shift> shifts =   shiftRepository.findActiveShiftsBeforeNow(ZonedDateTime.now());
+        if(!shifts.isEmpty()) {
+            shifts.forEach(shift -> {
+                shift.changeStatus();
+                shiftRepository.save(shift);
+            });
+        }
     }
 
     @KafkaListener(topics = "turnos", groupId = "myGroup")
@@ -70,7 +82,7 @@ public class ShiftMgmtServiceImpl implements ShiftMgmtService {
 
     @Override
     public List<String> listTurnsAsing(int userId, String dependence, String date) {
-        List<Shift> filterShiftDependence = shiftRepository.findByDependenceAndDate(dependence, convertDate(date), convertDate(date).plusHours(23).plusMinutes(59).plusSeconds(59));
+        List<Shift> filterShiftDependence = shiftRepository.findByDependenceAndDateAndStatus(dependence, convertDate(date), convertDate(date).plusHours(23).plusMinutes(59).plusSeconds(59));
         if(filterShiftDependence.isEmpty()) {
             return generateDateTimeList(date);
         }

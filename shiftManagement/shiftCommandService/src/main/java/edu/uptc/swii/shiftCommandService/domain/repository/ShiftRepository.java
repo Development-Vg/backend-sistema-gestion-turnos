@@ -12,6 +12,6 @@ import java.util.List;
 public interface ShiftRepository extends MongoRepository<Shift, Integer> {
     public Shift findByUserIdAndId(int userId, int id);
 
-    @Query("{ 'date' : { $gte: ?0, $lt: ?1 } }")
+    @Query("{ 'date' : { $gte: ?0, $lt: ?1 }, 'status': { $in: ['ACTIVE', 'INACTIVE'] } }")
     List<Shift> findByDateRange(ZonedDateTime startOfDay, ZonedDateTime endOfDay);
 }

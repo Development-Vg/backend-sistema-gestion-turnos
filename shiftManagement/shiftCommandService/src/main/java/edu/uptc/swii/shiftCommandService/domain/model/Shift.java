@@ -39,4 +39,8 @@ public class Shift {
     public void changeStatus(){
         status = ShifStatus.INACTIVE;
     }
+
+    public void changeStatusCancel(){
+        status = ShifStatus.CANCEL;
+    }
 }
