@@ -24,14 +24,14 @@ public class ShiftController {
 
     @PreAuthorize("hasRole('admin_backen_role') or hasRole('user_backen_role')")
     @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
-    public String createUser(@RequestBody Shift shift) {
+    public ResponseEntity createUser(@RequestBody Shift shift) {
         while(kafkaessage.equals("")) {
             kafkaTemplate.send(TOPIC, "idTurno");
         }
         shift.setId(Integer.parseInt(kafkaessage));
-        shiftMgmtService.saveShift(shift);
+        shift = shiftMgmtService.saveShift(shift);
         kafkaessage = "";
-        return "Turnoid: " + shift.getId();
+        return !(shift == null )? new ResponseEntity<>("Se creo con exito", HttpStatus.OK) : new ResponseEntity<>("Ya tiene un cita para es dia", HttpStatus.NOT_FOUND) ;
     }
 
     @PreAuthorize("hasRole('admin_backen_role') or hasRole('user_backen_role')")
